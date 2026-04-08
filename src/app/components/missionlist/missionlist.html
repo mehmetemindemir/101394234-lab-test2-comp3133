@@ -1,0 +1,56 @@
+<section class="page-wrap">
+  <h1>SpaceX Mission Launch List</h1>
+
+  <app-missionfilter (yearChange)="onYearChange($event)"></app-missionfilter>
+
+  @if (loading()) {
+    <div class="status-wrap" aria-live="polite">
+      <mat-spinner diameter="34"></mat-spinner>
+      <p>Loading missions...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (!loading() && !error() && missions().length === 0) {
+    <p class="status">No missions found for that filter.</p>
+  }
+
+  <div class="missions-grid">
+    @for (mission of missions(); track mission.flight_number) {
+      <mat-card class="mission-card">
+        @if (mission.links.mission_patch_small) {
+          <img
+            class="mission-patch"
+            [src]="mission.links.mission_patch_small"
+            [alt]="mission.mission_name + ' patch'"
+          />
+        }
+
+        <mat-card-title>
+          {{ mission.mission_name }} #{{ mission.flight_number }}
+        </mat-card-title>
+        <mat-card-subtitle>Launch Year: {{ mission.launch_year }}</mat-card-subtitle>
+
+        <mat-card-content>
+          <p>{{ mission.details || 'No details available.' }}</p>
+          <p>
+            Rocket: {{ mission.rocket.rocket_name }} ({{ mission.rocket.rocket_type }})
+          </p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <a
+            mat-flat-button
+            [routerLink]="['/mission', mission.flight_number]"
+            aria-label="Open mission details"
+          >
+            View Details
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+</section>

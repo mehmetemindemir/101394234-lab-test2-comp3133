@@ -1,0 +1,52 @@
+<section class="details-wrap">
+	<a mat-stroked-button routerLink="/">Back to Mission List</a>
+
+	@if (error()) {
+		<p class="error" role="alert">{{ error() }}</p>
+	}
+
+	@if (mission(); as selectedMission) {
+		<mat-card>
+			<mat-card-title>
+				{{ selectedMission.mission_name }} #{{ selectedMission.flight_number }}
+			</mat-card-title>
+			<mat-card-subtitle>Launch Year: {{ selectedMission.launch_year }}</mat-card-subtitle>
+
+			<mat-card-content>
+				@if (selectedMission.links.mission_patch_small) {
+					<img
+						class="mission-patch"
+						[src]="selectedMission.links.mission_patch_small"
+						[alt]="selectedMission.mission_name + ' patch'"
+					/>
+				}
+
+				<h3>Mission Details</h3>
+				<p>{{ selectedMission.details || 'No mission details available.' }}</p>
+
+				<h3>Rocket</h3>
+				<p>Name: {{ selectedMission.rocket.rocket_name }}</p>
+				<p>Type: {{ selectedMission.rocket.rocket_type }}</p>
+
+				<h3>Links</h3>
+				<div class="link-row">
+					@if (selectedMission.links.article_link) {
+						<a [href]="selectedMission.links.article_link" target="_blank" rel="noopener">
+							Article
+						</a>
+					}
+					@if (selectedMission.links.wikipedia) {
+						<a [href]="selectedMission.links.wikipedia" target="_blank" rel="noopener">
+							Wikipedia
+						</a>
+					}
+					@if (selectedMission.links.video_link) {
+						<a [href]="selectedMission.links.video_link" target="_blank" rel="noopener">
+							Video
+						</a>
+					}
+				</div>
+			</mat-card-content>
+		</mat-card>
+	}
+</section>

@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/101394234-lab-test2-comp3133",
+  "framework": "angular"
+}
